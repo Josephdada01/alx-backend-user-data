@@ -81,11 +81,11 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     as “localhost”).The database name is stored in PERSONAL_DATA_DB_NAME.
     """
     user = os.getenv('PERSONAL_DATA_DB_USERNAME') or "root"
-    pass_d = os.getenv('PERSONAL_DATA_DB_PASSWORD') or ""
+    passwd = os.getenv('PERSONAL_DATA_DB_PASSWORD') or ""
     host = os.getenv('PERSONAL_DATA_DB_HOST') or "localhost"
     db_name = os.getenv('PERSONAL_DATA_DB_NAME')
     conn = mysql.connector.connect(user=user,
-                                   password=pass_d,
+                                   password=passwd,
                                    host=host,
                                    database=db_name)
     return conn
