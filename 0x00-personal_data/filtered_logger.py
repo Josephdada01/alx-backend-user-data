@@ -13,8 +13,10 @@ values.
 filter_datum should be less than 5 lines long and use re.sub to perform
 the substitution with a single regex.
 """
+import os
 import re
 import logging
+import mysql.connector
 from typing import List
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
@@ -66,3 +68,24 @@ def get_logger() -> logging.Logger:
     # add the handler to the logger
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    connect to a secure holberton database to read a users table.
+    The database is protected by a username and password that are
+    set as environment variables on the server named
+    PERSONAL_DATA_DB_USERNAME (set the default as “root”),
+    PERSONAL_DATA_DB_PASSWORD (set the default as
+    an empty string) and PERSONAL_DATA_DB_HOST (set the default
+    as “localhost”).The database name is stored in PERSONAL_DATA_DB_NAME.
+    """
+    user = os.getenv('PERSONAL_DATA_DB_USERNAME') or "root"
+    pass_d = os.getenv('PERSONAL_DATA_DB_PASSWORD') or ""
+    host = os.getenv('PERSONAL_DATA_DB_HOST') or "localhost"
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+    conn = mysql.connector.connect(user=user,
+                                   password=pass_d,
+                                   host=host,
+                                   database=db_name)
+    return conn
