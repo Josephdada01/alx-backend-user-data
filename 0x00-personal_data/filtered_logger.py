@@ -90,6 +90,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
                                    database=db_name)
     return conn
 
+
 def main():
     """
     The function will obtain a database connection using get_db and
