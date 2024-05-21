@@ -18,20 +18,19 @@ class Auth:
 
         # for excluded_path in excluded_paths:
             # n_excluded_path = (excluded_path if excluded_path.endswith('/')
-                               # else excluded_path + '/')
+            # else excluded_path + '/')
             # if normal_path == n_excluded_path:
-                # return False
+            # return False
         # return True
         len_path = len(path)
         if len_path == 0:
             return True
-        
+
         split_path = True if path[len_path - 1] == '/' else False
 
         temp_path = path
         if not split_path:
             temp_path += '/'
-        
         for excluded_path in excluded_paths:
             len_exc = len(excluded_path)
             if len_exc == 0:
