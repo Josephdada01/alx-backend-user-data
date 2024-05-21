@@ -12,6 +12,36 @@ import os
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+auth = None
+
+# Determine AUTH_TYPE from environment variable
+AUTH_TYPE = os.getenv('AUTH_TYPE')
+
+# loading the appropriate class and create an instance
+if AUTH_TYPE == "auth":
+    from api.v1.auth.auth import Auth
+    auth = Auth()
+elif AUTH_TYPE == "basic_aut":
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth
+
+
+excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
+                  '/api/v1/forbidden/']
+
+
+@app.before_request
+def before_request():
+    """Handler for flittering request"""
+    if auth is None:
+        return
+    # Check if the request path requires authentication
+    if not auth.require_auth(request.path, excluded_paths):
+        return
+    if auth.authorization_header(request) is None:
+        abort(401)
+    if auth.current_user(request) is None:
+        abort(403)
 
 
 @app.errorhandler(401)
