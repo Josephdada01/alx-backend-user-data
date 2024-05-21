@@ -8,7 +8,7 @@ from models.user import User
 class Auth:
     """class to manage basic api"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """a public method"""
+        """a public methods"""
         return False
 
     def authorization_header(self, request=None) -> str:
