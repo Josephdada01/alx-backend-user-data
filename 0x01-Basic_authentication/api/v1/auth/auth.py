@@ -12,7 +12,7 @@ class Auth:
         return False
 
     def authorization_header(self, request=None) -> str:
-        """a public method"""
+        """a public methods"""
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
