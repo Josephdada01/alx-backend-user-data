@@ -18,15 +18,16 @@ auth = None
 AUTH_TYPE = os.getenv('AUTH_TYPE')
 
 # loading the appropriate class and create an instance
-if AUTH_TYPE == "auth":
+if AUTH_TYPE == "basic_auth":
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth()
+elif AUTH_TYPE == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()
-elif AUTH_TYPE == "basic_auth":
-    from api.v1.auth.basic_auth import BasicAuth
-    auth = BasicAuth
 
 
-excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
+excluded_paths = ['/api/v1/status/', 
+                  '/api/v1/unauthorized/',
                   '/api/v1/forbidden/']
 
 
