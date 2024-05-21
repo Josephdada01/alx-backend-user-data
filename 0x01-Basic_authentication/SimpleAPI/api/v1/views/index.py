@@ -16,11 +16,12 @@ def status() -> str:
 
 @app_views.route('/unauthorized', methods=['GET'], strict_slashes=False)
 def unauthorized():
-  """GET /api/v1/unauthorized
-  This endpoint must raise a
-  401 error by using abort
-  """
-  abort(401)
+    """
+    GET /api/v1/unauthorized
+    This endpoint must raise a
+    401 error by using abort
+    """
+    abort(401)
 
 
 @app_views.route('/stats/', strict_slashes=False)
