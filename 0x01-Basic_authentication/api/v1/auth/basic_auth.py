@@ -77,4 +77,3 @@ class BasicAuth(Auth):
             return None
         except Exception:
             return None
-            
