@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Implementing a custom authentication"""
+import os
 from flask import request
 from typing import List, TypeVar
 from models.user import User
@@ -53,3 +54,14 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """ a public method"""
         return None
+
+    def session_cookie(self, request=None):
+        """Returns a cookie value from a request"""
+        if request is None:
+            return None
+
+        session_name = os.getenv("SESSION_NAME")
+        if session_name is None:
+            return None
+
+        return request.cookies.get(session_name)
