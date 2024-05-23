@@ -18,6 +18,9 @@ auth = None
 AUTH_TYPE = os.getenv('AUTH_TYPE')
 
 # loading the appropriate class and create an instance
+if AUTH_TYPE == "session_auth":
+    from api.v1.auth.session_auth import SessionAuth
+    auth = SessionAuth()
 if AUTH_TYPE == "basic_auth":
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
