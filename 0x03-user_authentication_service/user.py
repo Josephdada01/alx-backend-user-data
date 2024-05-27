@@ -5,7 +5,7 @@ from sqlalchemy import Column, Integer, String
 from typing import Optional
 
 
-Base = declarative_base
+Base = declarative_base()
 
 
 class User(Base):
