@@ -8,7 +8,7 @@ from typing import Optional
 Base = declarative_base
 
 
-class User():
+class User(Base):
     """SQLAlchemy model named User for a database table named users"""
     __tablename__ = 'users'
 
