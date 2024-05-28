@@ -50,17 +50,17 @@ class DB:
         row found in the users table as filtered by the method’s
         input arguments
         """
-        try:
-            # Query the User table with the provided keyword arguments
-            user = self.__session.query(User).filter_by(**kwargs).one()
-            # Raise NoResultFound if no result is found
-        except NoResultFound:
-            raise NoResultFound("Not found")
-        # Raise InvalidRequestError for invalid query arguments
-        except InvalidRequestError:
-            raise InvalidRequestError("Invalid")
-        # Return the found user
-        return user
+        # Query the User table with the provided keyword arguments
+        all_users = self.__session.query(User)
+        for key, val in kwargs.items():
+            if key not in User.__dict__:
+                # if the query is bad raise Invlid request
+                raise InvalidRequestError
+            for user in all_users:
+                if getattr(user, key) == val:
+                    return user
+        # raise no result if no result is found
+        raise NoResultFound
 
     def update_user(self, user_id: int, **kwargs):
         """
