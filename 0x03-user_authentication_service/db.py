@@ -43,7 +43,7 @@ class DB:
         self._session.commit()
         # Return the user instance
         return new_user
-    
+
     def find_user_by(self, **kwargs) -> User:
         """
         This method takes in arbitrary keyword arguments and returns the first
