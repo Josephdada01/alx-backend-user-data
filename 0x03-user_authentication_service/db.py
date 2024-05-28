@@ -38,10 +38,9 @@ class DB:
         """
         new_user = User(email=email, hashed_password=hashed_password)
         # Add the user to the session
+        # Commit the session to save changes and return the user
         self._session.add(new_user)
-        # Commit the session to save changes
         self._session.commit()
-        # Return the user instance
         return new_user
 
     def find_user_by(self, **kwargs) -> User:
