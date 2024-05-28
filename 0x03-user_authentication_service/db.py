@@ -45,40 +45,30 @@ class DB:
         return new_user
 
     def find_user_by(self, **kwargs) -> User:
-        """
-        This method takes in arbitrary keyword arguments and returns the first
-        row found in the users table as filtered by the method’s
-        input arguments
-        """
-        # Query the User table with the provided keyword arguments
-        all_users = self.__session.query(User)
-        for key, val in kwargs.items():
-            if key not in User.__dict__:
-                # if the query is bad raise Invlid request
-                raise InvalidRequestError
-            for user in all_users:
-                if getattr(user, key) == val:
-                    return user
-        # raise no result if no result is found
-        raise NoResultFound
+        """summary
 
-    def update_user(self, user_id: int, **kwargs):
+        Returns:
+            User: description
         """
-        method that takes as argument a required user_id integer and
-        arbitrary keyword arguments, and returns None.
-        The method will use find_user_by to locate the user to update,
-        then will update the user’s attributes as passed in the method’s
-        arguments then commit changes to the database.
-        If an argument that does not correspond to a user attribute is passed,
-        raise a ValueError
+        if not kwargs:
+            raise InvalidRequestError
+
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if not user:
+            raise NoResultFound
+        return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """summary
+
+        Args:
+            user_id (int): description
         """
-        try:
-            usr = self.find_user_by(id=user_id)
-        except NoResultFound:
-            raise ValueError()
-        for k, v in kwargs.items():
-            if hasattr(usr, k):
-                setattr(usr, k, v)
-            else:
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
                 raise ValueError
+            setattr(user, key, value)
+
         self._session.commit()
+        return None
