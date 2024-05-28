@@ -23,6 +23,13 @@ def _hash_password(password: str) -> bytes:
     return hashed_password
 
 
+def _generate_uuid() -> str:
+    """private function that return a string
+    representation of a new UUID"""
+    new_uuid = uuid.uuid4()
+    return str(new_uuid)
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -65,9 +72,3 @@ class Auth:
                 return False
         except Exception:
             return False
-
-    def _generate_uuid() -> str:
-        """private function that return a string
-        representation of a new UUID"""
-        new_uuid = uuid.uuid4()
-        return str(new_uuid)
