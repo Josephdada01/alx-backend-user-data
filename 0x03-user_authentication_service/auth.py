@@ -138,7 +138,7 @@ class Auth:
         try:
             user = self._db.find_user_by(reset_token=reset_token)
             password = _hash_password(password)
-            self._db.update_user(user.password, new_password=password)
+            self._db.update_user(user.password, password=password)
             return password
         except Exception:
             raise ValueError
