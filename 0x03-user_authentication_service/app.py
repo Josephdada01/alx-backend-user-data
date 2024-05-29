@@ -35,15 +35,14 @@ def login():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    if not Auth.valid_login(email, password):
+    if not (Auth.valid_login(email, password)):
         abort(404)
     else:
         # creating a new session for the user
         session_id = Auth.create_session(email)
-        # storing the session ID as a cookie with key "session_id" on 
+        # storing the session ID as a cookie with key "session_id" on
         # the response and returning a JSON payload of the form
-        response = make_response(jsonify({"email": email,
-                                          "message": "logged in"}))
+        response = jsonify({"email": email, "message": "logged in"})
         response.set_cookie("session_id", session_id)
         return response
 
