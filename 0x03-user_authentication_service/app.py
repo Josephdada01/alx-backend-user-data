@@ -35,6 +35,9 @@ def login():
     email = request.form.get('email')
     password = request.form.get('password')
 
+    if not email or not password:
+        return jsonify({"message": "Email and password are required"}), 400
+
     if not Auth.valid_login(email, password):
         abort(404)
     # creating a new session for the user
