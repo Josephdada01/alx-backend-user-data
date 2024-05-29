@@ -41,7 +41,7 @@ def login() -> str:
         # creating a new session for the user
         session_id = Auth.create_session(email)
         # storing the session ID as a cookie with key "session_id" on
-        # the response and returning a JSON payload of the form
+        # the response and returning JSON payload of the form
         response = jsonify({"email": email, "message": "logged in"})
         response.set_cookie("session_id", session_id)
         return response
