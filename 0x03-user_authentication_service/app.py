@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """app.py modules"""
-from flask import Flask, jsonify, request, abort, make_response
+from flask import Flask, jsonify, request, abort, redirect
+from sqlalchemy.orm.exc import NoResultFound
 from auth import Auth
 
 
@@ -45,6 +46,26 @@ def login() -> str:
         response = jsonify({"email": email, "message": "logged in"})
         response.set_cookie("session_id", session_id)
         return response
+
+
+@app.route('/sessions', methods=["DELETE"])
+def logout() -> str:
+    """function to respond to the DELETE /sessions route."""
+    # The request contain the session ID as a cookie with key "session_id".
+    session_id = request.cookies.get("session_id")
+    if not session_id:
+        abort(403)
+    try:
+        # Find the user with the requested session ID
+        user = AUTH._db.find_user_by(session_id=session_id)
+    except NoResultFound:
+        user = None
+    # If the user does not exist, respond with a 403 HTTP status.
+    if not user:
+        abort(403)
+    # If the user exists destroy the session and redirect the user to GET /
+    AUTH.destroy_session(user.id)
+    return redirect("/")
 
 
 if __name__ == "__main__":
